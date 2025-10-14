@@ -54,11 +54,18 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 }}
+      transition={{ delay: 0.5, type: "spring" }}
     >
-      <Card className={`p-6 border-2 ${borderColor}`}>
+      <Card className={`p-6 border-2 ${borderColor} hover:${borderColor.replace('50', '100')} transition-all hover:shadow-xl`}>
         <div className="mb-4">
-          <h3 className="font-bold text-lg tracking-wide">@{username}</h3>
+          <motion.h3 
+            className="font-bold text-lg tracking-wide"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            @{username}
+          </motion.h3>
         </div>
         
         <TooltipProvider delayDuration={0}>
@@ -73,12 +80,16 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           transition={{ 
-                            delay: (weekIndex * 7 + dayIndex) * 0.001,
+                            delay: 0.6 + (weekIndex * 7 + dayIndex) * 0.002,
                             type: "spring",
                             stiffness: 500,
                             damping: 30
                           }}
-                          whileHover={{ scale: 1.3 }}
+                          whileHover={{ 
+                            scale: 1.5,
+                            rotate: 5,
+                            zIndex: 10
+                          }}
                           className={`w-3 h-3 rounded-sm cursor-pointer transition-all ${getIntensityClass(day.count)}`}
                         />
                       </TooltipTrigger>
@@ -96,17 +107,33 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
           </div>
         </TooltipProvider>
 
-        <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+        <motion.div 
+          className="mt-4 flex items-center gap-2 text-xs text-muted-foreground"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+        >
           <span>Less</span>
           <div className="flex gap-1">
-            <div className="w-3 h-3 rounded-sm bg-muted/20" />
-            <div className={`w-3 h-3 rounded-sm ${baseColor}/30`} />
-            <div className={`w-3 h-3 rounded-sm ${baseColor}/50`} />
-            <div className={`w-3 h-3 rounded-sm ${baseColor}/70`} />
-            <div className={`w-3 h-3 rounded-sm ${baseColor}`} />
+            {[0, 1, 2, 3, 4].map((level) => (
+              <motion.div
+                key={level}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 1 + level * 0.05, type: "spring" }}
+                whileHover={{ scale: 1.3 }}
+                className={`w-3 h-3 rounded-sm ${
+                  level === 0 ? 'bg-muted/20' : 
+                  level === 1 ? `${baseColor}/30` :
+                  level === 2 ? `${baseColor}/50` :
+                  level === 3 ? `${baseColor}/70` :
+                  `${baseColor}`
+                }`}
+              />
+            ))}
           </div>
           <span>More</span>
-        </div>
+        </motion.div>
       </Card>
     </motion.div>
   )
