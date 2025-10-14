@@ -30,17 +30,17 @@ function App() {
 
   const determineWinner = (): 'player1' | 'player2' | 'tie' => {
     if (!player1 || !player2) return 'tie'
-    
-    const score1 = 
+
+    const score1 =
       player1.stats.totalContributions * 1 +
       player1.stats.longestStreak * 10 +
       player1.stats.currentStreak * 5
-    
-    const score2 = 
+
+    const score2 =
       player2.stats.totalContributions * 1 +
       player2.stats.longestStreak * 10 +
       player2.stats.currentStreak * 5
-    
+
     if (score1 > score2) return 'player1'
     if (score2 > score1) return 'player2'
     return 'tie'
@@ -48,41 +48,41 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <motion.div 
+      <motion.div
         className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5 pointer-events-none"
-        animate={{ 
+        animate={{
           opacity: [0.7, 1, 0.7],
         }}
-        transition={{ 
+        transition={{
           duration: 5,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: 'easeInOut',
         }}
       />
-      
+
       <div className="relative">
         <header className="py-8 px-4 md:px-8">
           <motion.div
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 100 }}
+            transition={{ type: 'spring', stiffness: 100 }}
             className="text-center"
           >
-            <motion.h1 
+            <motion.h1
               className="text-4xl md:text-6xl font-bold tracking-wider mb-2 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent"
-              animate={{ 
+              animate={{
                 backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
               }}
-              transition={{ 
+              transition={{
                 duration: 5,
                 repeat: Infinity,
-                ease: "linear"
+                ease: 'linear',
               }}
               style={{ backgroundSize: '200% 200%' }}
             >
               GITHUB BATTLE ARENA
             </motion.h1>
-            <motion.p 
+            <motion.p
               className="text-muted-foreground font-medium"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -96,7 +96,10 @@ function App() {
         <main className="px-4 md:px-8 pb-16">
           <AnimatePresence mode="wait">
             {!showBattle ? (
-              <SelectionScreen key="selection" onStartBattle={handleStartBattle} />
+              <SelectionScreen
+                key="selection"
+                onStartBattle={handleStartBattle}
+              />
             ) : (
               <motion.div
                 key="battle"
@@ -113,10 +116,10 @@ function App() {
                   >
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ 
+                      transition={{
                         duration: 2,
                         repeat: Infinity,
-                        ease: "linear"
+                        ease: 'linear',
                       }}
                     >
                       <ArrowsClockwise className="w-5 h-5" />
@@ -127,75 +130,79 @@ function App() {
 
                 <div className="grid md:grid-cols-[1fr_auto_1fr] gap-8 items-start max-w-7xl mx-auto">
                   <PlayerCard user={player1!} playerSide="player1" />
-                  
+
                   <div className="flex items-center justify-center md:pt-20">
                     <motion.div
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
-                      transition={{ type: "spring", duration: 0.8 }}
+                      transition={{ type: 'spring', duration: 0.8 }}
                       className="relative"
                     >
-                      <motion.div 
+                      <motion.div
                         className="absolute inset-0 bg-accent/20 blur-xl rounded-full"
-                        animate={{ 
+                        animate={{
                           scale: [1, 1.3, 1],
-                          opacity: [0.5, 0.8, 0.5]
+                          opacity: [0.5, 0.8, 0.5],
                         }}
-                        transition={{ 
+                        transition={{
                           duration: 2,
                           repeat: Infinity,
-                          ease: "easeInOut"
+                          ease: 'easeInOut',
                         }}
                       />
                       <motion.div
-                        animate={{ 
+                        animate={{
                           rotate: [0, -10, 10, -10, 0],
-                          scale: [1, 1.1, 1]
+                          scale: [1, 1.1, 1],
                         }}
-                        transition={{ 
+                        transition={{
                           duration: 3,
                           repeat: Infinity,
-                          repeatType: "reverse"
+                          repeatType: 'reverse',
                         }}
                       >
-                        <Lightning 
-                          weight="fill" 
-                          className="w-16 h-16 md:w-20 md:h-20 text-accent relative z-10 drop-shadow-[0_0_20px_rgba(190,242,100,0.6)]" 
+                        <Lightning
+                          weight="fill"
+                          className="w-16 h-16 md:w-20 md:h-20 text-accent relative z-10 drop-shadow-[0_0_20px_rgba(190,242,100,0.6)]"
                         />
                       </motion.div>
                     </motion.div>
                   </div>
-                  
+
                   <PlayerCard user={player2!} playerSide="player2" />
                 </div>
 
                 <StatsComparison player1={player1!} player2={player2!} />
 
                 <div className="max-w-7xl mx-auto space-y-8">
-                  <motion.h2 
+                  <motion.h2
                     className="text-2xl md:text-3xl font-bold text-center tracking-wide"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, type: "spring" }}
+                    transition={{ delay: 0.3, type: 'spring' }}
                   >
                     CONTRIBUTION GRAPHS
                   </motion.h2>
-                  
+
                   <div className="grid md:grid-cols-2 gap-8">
-                    <ContributionGraph 
-                      contributions={player1!.contributions} 
+                    <ContributionGraph
+                      contributions={player1!.contributions}
                       playerSide="player1"
                       username={player1!.username}
                     />
-                    <ContributionGraph 
-                      contributions={player2!.contributions} 
+                    <ContributionGraph
+                      contributions={player2!.contributions}
                       playerSide="player2"
                       username={player2!.username}
                     />
                   </div>
                 </div>
 
-                <WinnerBanner winner={determineWinner()} player1={player1!} player2={player2!} />
+                <WinnerBanner
+                  winner={determineWinner()}
+                  player1={player1!}
+                  player2={player2!}
+                />
               </motion.div>
             )}
           </AnimatePresence>
@@ -205,7 +212,11 @@ function App() {
   )
 }
 
-function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: string) => void }) {
+function SelectionScreen({
+  onStartBattle,
+}: {
+  onStartBattle: (u1: string, u2: string) => void
+}) {
   const [username1, setUsername1] = useState('')
   const [username2, setUsername2] = useState('')
 
@@ -223,36 +234,39 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
       exit={{ scale: 0.9, opacity: 0 }}
       className="max-w-4xl mx-auto"
     >
-      <motion.div 
+      <motion.div
         className="bg-card border-2 border-border rounded-lg p-8 md:p-12 shadow-[0_0_50px_rgba(99,102,241,0.15)]"
-        whileHover={{ 
+        whileHover={{
           boxShadow: '0 0 80px rgba(99,102,241,0.25)',
         }}
         transition={{ duration: 0.3 }}
       >
         <div className="text-center mb-8">
           <motion.div
-            animate={{ 
+            animate={{
               rotate: [0, 5, -5, 0],
-              scale: [1, 1.05, 1]
+              scale: [1, 1.05, 1],
             }}
-            transition={{ 
+            transition={{
               duration: 2,
               repeat: Infinity,
-              repeatType: "reverse"
+              repeatType: 'reverse',
             }}
           >
-            <Trophy weight="fill" className="w-20 h-20 mx-auto mb-4 text-accent" />
+            <Trophy
+              weight="fill"
+              className="w-20 h-20 mx-auto mb-4 text-accent"
+            />
           </motion.div>
-          <motion.h2 
+          <motion.h2
             className="text-3xl md:text-4xl font-bold mb-2 tracking-wide"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, type: "spring" }}
+            transition={{ delay: 0.2, type: 'spring' }}
           >
             CHOOSE YOUR FIGHTERS
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-muted-foreground"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -264,11 +278,11 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
-            <motion.div 
+            <motion.div
               className="space-y-2"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.4, type: "spring" }}
+              transition={{ delay: 0.4, type: 'spring' }}
             >
               <label className="text-sm font-semibold text-primary uppercase tracking-wider">
                 Player 1
@@ -283,11 +297,11 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
               />
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="space-y-2"
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.4, type: "spring" }}
+              transition={{ delay: 0.4, type: 'spring' }}
             >
               <label className="text-sm font-semibold text-secondary uppercase tracking-wider">
                 Player 2
@@ -306,7 +320,7 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, type: "spring" }}
+            transition={{ delay: 0.6, type: 'spring' }}
           >
             <Button
               type="submit"
@@ -314,13 +328,13 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
               className="w-full py-6 text-lg font-bold bg-accent hover:bg-accent/90 text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_rgba(190,242,100,0.3)] hover:shadow-[0_0_50px_rgba(190,242,100,0.5)] transition-all"
             >
               <motion.span
-                animate={{ 
+                animate={{
                   scale: [1, 1.05, 1],
                 }}
-                transition={{ 
+                transition={{
                   duration: 1.5,
                   repeat: Infinity,
-                  repeatType: "reverse"
+                  repeatType: 'reverse',
                 }}
               >
                 START BATTLE
