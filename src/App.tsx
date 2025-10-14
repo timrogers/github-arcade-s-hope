@@ -6,26 +6,42 @@ import { PlayerCard } from '@/components/PlayerCard'
 import { StatsComparison } from '@/components/StatsComparison'
 import { ContributionGraph } from '@/components/ContributionGraph'
 import { WinnerBanner } from '@/components/WinnerBanner'
-import { generateDummyUserData } from '@/lib/dummyData'
+import { fetchGitHubUserData } from '@/lib/githubApi'
 import type { GitHubUser } from '@/lib/types'
 
 function App() {
   const [player1, setPlayer1] = useState<GitHubUser | null>(null)
   const [player2, setPlayer2] = useState<GitHubUser | null>(null)
   const [showBattle, setShowBattle] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleStartBattle = (username1: string, username2: string) => {
-    const user1 = generateDummyUserData(username1)
-    const user2 = generateDummyUserData(username2)
-    setPlayer1(user1)
-    setPlayer2(user2)
-    setShowBattle(true)
+  const handleStartBattle = async (username1: string, username2: string) => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const [user1, user2] = await Promise.all([
+        fetchGitHubUserData(username1),
+        fetchGitHubUserData(username2)
+      ])
+      
+      setPlayer1(user1)
+      setPlayer2(user2)
+      setShowBattle(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch user data')
+      console.error('Error fetching user data:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleReset = () => {
     setPlayer1(null)
     setPlayer2(null)
     setShowBattle(false)
+    setError(null)
   }
 
   const determineWinner = (): 'player1' | 'player2' | 'tie' => {
@@ -96,7 +112,12 @@ function App() {
         <main className="px-4 md:px-8 pb-16">
           <AnimatePresence mode="wait">
             {!showBattle ? (
-              <SelectionScreen key="selection" onStartBattle={handleStartBattle} />
+              <SelectionScreen 
+                key="selection" 
+                onStartBattle={handleStartBattle}
+                loading={loading}
+                error={error}
+              />
             ) : (
               <motion.div
                 key="battle"
@@ -205,7 +226,15 @@ function App() {
   )
 }
 
-function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: string) => void }) {
+function SelectionScreen({ 
+  onStartBattle, 
+  loading, 
+  error 
+}: { 
+  onStartBattle: (u1: string, u2: string) => Promise<void>
+  loading: boolean
+  error: string | null
+}) {
   const [username1, setUsername1] = useState('')
   const [username2, setUsername2] = useState('')
 
@@ -280,6 +309,7 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
                 placeholder="Enter username"
                 className="w-full px-4 py-3 bg-background border-2 border-primary/40 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground/50"
                 whileFocus={{ scale: 1.02 }}
+                disabled={loading}
               />
             </motion.div>
 
@@ -299,9 +329,20 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
                 placeholder="Enter username"
                 className="w-full px-4 py-3 bg-background border-2 border-secondary/40 rounded-lg focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all placeholder:text-muted-foreground/50"
                 whileFocus={{ scale: 1.02 }}
+                disabled={loading}
               />
             </motion.div>
           </div>
+
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm"
+            >
+              {error}
+            </motion.div>
+          )}
 
           <motion.div
             initial={{ y: 30, opacity: 0 }}
@@ -310,20 +351,20 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
           >
             <Button
               type="submit"
-              disabled={!username1.trim() || !username2.trim()}
+              disabled={!username1.trim() || !username2.trim() || loading}
               className="w-full py-6 text-lg font-bold bg-accent hover:bg-accent/90 text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_rgba(190,242,100,0.3)] hover:shadow-[0_0_50px_rgba(190,242,100,0.5)] transition-all"
             >
               <motion.span
                 animate={{ 
-                  scale: [1, 1.05, 1],
+                  scale: loading ? [1, 1.05, 1] : 1,
                 }}
                 transition={{ 
                   duration: 1.5,
-                  repeat: Infinity,
+                  repeat: loading ? Infinity : 0,
                   repeatType: "reverse"
                 }}
               >
-                START BATTLE
+                {loading ? 'LOADING...' : 'START BATTLE'}
               </motion.span>
             </Button>
           </motion.div>
