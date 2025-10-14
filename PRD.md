@@ -3,16 +3,19 @@
 An arcade-styled battle arena where two GitHub users face off by comparing their contribution graphs in a visually exciting, game-like interface.
 
 **Experience Qualities**:
+
 1. **Energetic** - Bold colors, dynamic animations, and punchy visual feedback that makes comparison feel like an exciting competition
 2. **Playful** - Game-inspired UI elements like VS screens, score displays, and winner announcements that transform dry statistics into entertainment
 3. **Immediate** - Instant visual clarity about who's winning in different metrics with at-a-glance comparison elements
 
 **Complexity Level**: Light Application (multiple features with basic state)
-  - Features user input, data visualization, comparison logic, and state management for multiple views, but maintains focused scope with dummy data
+
+- Features user input, data visualization, comparison logic, and state management for multiple views, but maintains focused scope with dummy data
 
 ## Essential Features
 
 ### User Selection
+
 - **Functionality**: Input fields for two GitHub usernames with avatars and basic profile info
 - **Purpose**: Set up the comparison matchup in a game-like VS screen format
 - **Trigger**: User enters usernames in left/right player slots
@@ -20,6 +23,7 @@ An arcade-styled battle arena where two GitHub users face off by comparing their
 - **Success criteria**: Both users displayed with clear visual separation (left vs right)
 
 ### Contribution Graph Visualization
+
 - **Functionality**: Side-by-side or overlaid heatmap-style contribution calendars with activity data
 - **Purpose**: Show the primary comparison metric in a familiar GitHub-style visualization
 - **Trigger**: Automatically displayed once users are selected
@@ -27,6 +31,7 @@ An arcade-styled battle arena where two GitHub users face off by comparing their
 - **Success criteria**: Clear visual representation of activity patterns with color intensity showing contribution levels
 
 ### Stats Comparison Panel
+
 - **Functionality**: Display key metrics (total contributions, longest streak, current streak, best day) for both users
 - **Purpose**: Provide quick numerical comparison across multiple dimensions
 - **Trigger**: Calculated from contribution data and displayed alongside graphs
@@ -34,6 +39,7 @@ An arcade-styled battle arena where two GitHub users face off by comparing their
 - **Success criteria**: Metrics clearly labeled with visual indicators showing which user leads in each category
 
 ### Winner Declaration
+
 - **Functionality**: Algorithm determines overall winner based on weighted metrics with celebratory animation
 - **Purpose**: Provide satisfying conclusion to the comparison with clear result
 - **Trigger**: After all data is displayed and calculated
@@ -56,7 +62,7 @@ The design should evoke the feeling of a retro arcade cabinet merged with modern
 Triadic color scheme creating high-energy competitive atmosphere with distinct team colors for each user while maintaining readability.
 
 - **Primary Color**: Electric Blue (oklch(0.6 0.25 250)) - Represents player 1 side, conveys digital/tech energy and competitive spirit
-- **Secondary Colors**: 
+- **Secondary Colors**:
   - Hot Pink/Magenta (oklch(0.65 0.28 340)) - Represents player 2 side, creates strong contrast and arcade vibrancy
   - Deep Purple (oklch(0.35 0.15 290)) - Background elements and cards, ties the triadic scheme together
 - **Accent Color**: Neon Yellow-Green (oklch(0.85 0.22 130)) - Winner highlights, CTAs, and attention elements
@@ -89,42 +95,37 @@ Animations should feel punchy and game-like with quick snappy transitions that r
 
 ## Component Selection
 
-- **Components**: 
+- **Components**:
   - Card (for user profiles and stat panels) - Heavy use with neon border glows via custom border colors
   - Input (for username entry) - Modified with glowing focus states and arcade-style borders
   - Button (for compare/reset actions) - Primary button with neon accent color and hover glow effects
   - Avatar (for user profile pictures) - Large circular avatars with colored ring borders matching team colors
   - Badge (for stats and metrics) - Styled with bright backgrounds for category labels
   - Separator (for dividing sections) - Glowing divider lines with gradient effects
-  
-- **Customizations**: 
+- **Customizations**:
   - Contribution calendar grid component (custom) - Heatmap squares with hover tooltips
   - VS divider component (custom) - Animated "VS" text with lightning bolt or versus symbol
   - Winner banner component (custom) - Full-width celebration banner with confetti or glow effects
   - Stat card component (custom) - Numeric displays with leader indicators
-  
-- **States**: 
+- **States**:
   - Buttons: Rest (neon glow), Hover (intensified glow + scale 1.05), Active (pressed scale 0.95), Focus (ring glow)
   - Inputs: Rest (subtle border), Focus (bright neon border + outer glow), Filled (maintained glow), Error (red glow)
   - Cards: Default (subtle border), Leader state (winning side gets enhanced glow)
   - Contribution squares: Empty (dark), Low activity (dim color), High activity (bright saturated), Hover (scale + tooltip)
-  
-- **Icon Selection**: 
+- **Icon Selection**:
   - Trophy (for winner) - Phosphor Trophy icon
   - Lightning bolt (for VS divider) - Phosphor Lightning icon
   - Fire (for streak indicators) - Phosphor Fire icon
   - Calendar (for contribution sections) - Phosphor CalendarBlank icon
   - ArrowsClockwise (for reset) - Phosphor ArrowsClockwise icon
   - User (for profile placeholders) - Phosphor User icon
-  
-- **Spacing**: 
+- **Spacing**:
   - Card padding: p-6 (24px) for comfortable content breathing room
   - Section gaps: gap-8 (32px) between major sections for clear separation
   - Stat item gaps: gap-4 (16px) within related stat groups
   - Grid gaps: gap-1 (4px) for contribution squares to maintain density while showing boundaries
   - Page margins: px-4 md:px-8 for responsive edge spacing
-  
-- **Mobile**: 
+- **Mobile**:
   - Stack user cards vertically instead of side-by-side on screens < 768px
   - VS divider rotates 90° to horizontal separator between stacked users
   - Contribution grids scale down with smaller squares on mobile
