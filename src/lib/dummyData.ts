@@ -2,7 +2,8 @@ import type { GitHubUser, ContributionDay, GitHubStats } from './types'
 
 async function fetchGitHubAvatar(username: string): Promise<string> {
   try {
-    const response = await fetch(`https://api.github.com/users/${username}`)
+    const encodedUsername = encodeURIComponent(username)
+    const response = await fetch(`https://api.github.com/users/${encodedUsername}`)
     if (response.ok) {
       const data = await response.json()
       return data.avatar_url
@@ -12,7 +13,7 @@ async function fetchGitHubAvatar(username: string): Promise<string> {
   }
   
   // Fallback to a default avatar if fetch fails
-  return `https://github.com/identicons/${username}.png`
+  return `https://github.com/identicons/${encodeURIComponent(username)}.png`
 }
 
 function generateContributions(): ContributionDay[] {

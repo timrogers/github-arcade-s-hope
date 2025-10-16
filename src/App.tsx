@@ -15,11 +15,16 @@ function App() {
   const [showBattle, setShowBattle] = useState(false)
 
   const handleStartBattle = async (username1: string, username2: string) => {
-    const user1 = await generateDummyUserData(username1)
-    const user2 = await generateDummyUserData(username2)
-    setPlayer1(user1)
-    setPlayer2(user2)
-    setShowBattle(true)
+    try {
+      const user1 = await generateDummyUserData(username1)
+      const user2 = await generateDummyUserData(username2)
+      setPlayer1(user1)
+      setPlayer2(user2)
+      setShowBattle(true)
+    } catch (error) {
+      console.error('Failed to start battle:', error)
+      // The function continues with fallback avatars from generateDummyUserData
+    }
   }
 
   const handleReset = () => {
@@ -205,7 +210,7 @@ function App() {
   )
 }
 
-function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: string) => void }) {
+function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: string) => Promise<void> }) {
   const [username1, setUsername1] = useState('')
   const [username2, setUsername2] = useState('')
 
