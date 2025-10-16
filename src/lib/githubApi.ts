@@ -19,16 +19,17 @@ export async function fetchGitHubUser(username: string): Promise<GitHubUserData 
     return null
   }
 
-  // Basic GitHub username validation (alphanumeric, hyphens, max 39 chars)
-  // Usernames must start and end with alphanumeric characters
-  if (!/^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(username.trim())) {
+  // Basic GitHub username validation
+  // Rules: 1-39 characters, alphanumeric + hyphens, must start/end with alphanumeric
+  const trimmedUsername = username.trim()
+  if (trimmedUsername.length > 39 || !/^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(trimmedUsername)) {
     console.error(`Invalid GitHub username format: ${username}`)
     return null
   }
 
   try {
     const response = await octokit.request('GET /users/{username}', {
-      username: username.trim(),
+      username: trimmedUsername,
     })
 
     return {
