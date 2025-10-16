@@ -1,14 +1,19 @@
 import type { GitHubUser, ContributionDay, GitHubStats } from './types'
 
-const avatarColors = [
-  'e91e63', '9c27b0', '673ab7', '3f51b5', '2196f3',
-  '00bcd4', '009688', '4caf50', 'ff9800', 'ff5722'
-]
-
-function getRandomAvatar(username: string): string {
-  const colorIndex = username.length % avatarColors.length
-  const color = avatarColors[colorIndex]
-  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}&backgroundColor=${color}`
+async function fetchGitHubAvatar(username: string): Promise<string> {
+  try {
+    const encodedUsername = encodeURIComponent(username)
+    const response = await fetch(`https://api.github.com/users/${encodedUsername}`)
+    if (response.ok) {
+      const data = await response.json()
+      return data.avatar_url
+    }
+  } catch (error) {
+    console.error(`Failed to fetch avatar for ${username}:`, error)
+  }
+  
+  // Fallback to a default avatar if fetch fails
+  return `https://github.com/identicons/${encodeURIComponent(username)}.png`
 }
 
 function generateContributions(): ContributionDay[] {
@@ -83,13 +88,14 @@ function calculateStats(contributions: ContributionDay[]): GitHubStats {
   }
 }
 
-export function generateDummyUserData(username: string): GitHubUser {
+export async function generateDummyUserData(username: string): Promise<GitHubUser> {
   const contributions = generateContributions()
   const stats = calculateStats(contributions)
+  const avatar = await fetchGitHubAvatar(username)
   
   return {
     username,
-    avatar: getRandomAvatar(username),
+    avatar,
     name: username.charAt(0).toUpperCase() + username.slice(1),
     contributions,
     stats
