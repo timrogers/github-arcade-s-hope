@@ -6,6 +6,7 @@ import { PlayerCard } from '@/components/PlayerCard'
 import { StatsComparison } from '@/components/StatsComparison'
 import { ContributionGraph } from '@/components/ContributionGraph'
 import { WinnerBanner } from '@/components/WinnerBanner'
+import { Footer } from '@/components/Footer'
 import { fetchGitHubUserData } from '@/lib/githubApi'
 import type { GitHubUser } from '@/lib/types'
 
@@ -221,6 +222,8 @@ function App() {
             )}
           </AnimatePresence>
         </main>
+
+        <Footer />
       </div>
     </div>
   )
