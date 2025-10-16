@@ -1,6 +1,10 @@
 import { Octokit } from 'octokit'
 
-const octokit = new Octokit()
+// Initialize Octokit with optional authentication
+// In production, set GITHUB_TOKEN environment variable to avoid rate limits
+const octokit = new Octokit({
+  auth: import.meta.env.VITE_GITHUB_TOKEN || undefined,
+})
 
 export interface GitHubUserData {
   username: string
@@ -9,9 +13,21 @@ export interface GitHubUserData {
 }
 
 export async function fetchGitHubUser(username: string): Promise<GitHubUserData | null> {
+  // Validate username format
+  if (!username || typeof username !== 'string' || username.trim().length === 0) {
+    console.error('Invalid username provided')
+    return null
+  }
+
+  // Basic GitHub username validation (alphanumeric, hyphens, max 39 chars)
+  if (!/^[a-zA-Z0-9-]{1,39}$/.test(username.trim())) {
+    console.error(`Invalid GitHub username format: ${username}`)
+    return null
+  }
+
   try {
     const response = await octokit.request('GET /users/{username}', {
-      username,
+      username: username.trim(),
     })
 
     return {
@@ -20,7 +36,9 @@ export async function fetchGitHubUser(username: string): Promise<GitHubUserData 
       name: response.data.name || response.data.login,
     }
   } catch (error) {
-    console.error(`Failed to fetch GitHub user ${username}:`, error)
+    // Log only essential error information
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error(`Failed to fetch GitHub user ${username}: ${message}`)
     return null
   }
 }
