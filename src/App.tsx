@@ -22,8 +22,8 @@ function App() {
       setPlayer2(user2)
       setShowBattle(true)
     } catch (error) {
-      console.error('Failed to start battle:', error)
-      // The function continues with fallback avatars from generateDummyUserData
+      console.error('Failed to start battle for users:', username1, username2, error)
+      // Error is caught but generateDummyUserData already has internal fallbacks
     }
   }
 
