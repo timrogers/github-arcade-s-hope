@@ -14,9 +14,9 @@ function App() {
   const [player2, setPlayer2] = useState<GitHubUser | null>(null)
   const [showBattle, setShowBattle] = useState(false)
 
-  const handleStartBattle = (username1: string, username2: string) => {
-    const user1 = generateDummyUserData(username1)
-    const user2 = generateDummyUserData(username2)
+  const handleStartBattle = async (username1: string, username2: string) => {
+    const user1 = await generateDummyUserData(username1)
+    const user2 = await generateDummyUserData(username2)
     setPlayer1(user1)
     setPlayer2(user2)
     setShowBattle(true)
