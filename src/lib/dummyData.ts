@@ -1,4 +1,5 @@
 import type { GitHubUser, ContributionDay, GitHubStats } from './types'
+import { fetchGitHubUser } from './githubApi'
 
 const avatarColors = [
   'e91e63', '9c27b0', '673ab7', '3f51b5', '2196f3',
@@ -83,10 +84,24 @@ function calculateStats(contributions: ContributionDay[]): GitHubStats {
   }
 }
 
-export function generateDummyUserData(username: string): GitHubUser {
+export async function generateDummyUserData(username: string): Promise<GitHubUser> {
   const contributions = generateContributions()
   const stats = calculateStats(contributions)
   
+  // Try to fetch real user data from GitHub API
+  const githubUser = await fetchGitHubUser(username)
+  
+  if (githubUser) {
+    return {
+      username: githubUser.username,
+      avatar: githubUser.avatar,
+      name: githubUser.name,
+      contributions,
+      stats
+    }
+  }
+  
+  // Fallback to placeholder if API fails
   return {
     username,
     avatar: getRandomAvatar(username),
