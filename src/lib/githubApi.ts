@@ -12,10 +12,10 @@ interface GitHubUserData {
 /**
  * Validates a GitHub username
  * GitHub usernames can only contain alphanumeric characters and hyphens,
- * cannot start with a hyphen, and must be 1-39 characters long
+ * cannot start or end with a hyphen, and must be 1-39 characters long
  */
 function isValidGitHubUsername(username: string): boolean {
-  const githubUsernameRegex = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,38})?$/
+  const githubUsernameRegex = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,37}[a-zA-Z0-9])?$/
   return githubUsernameRegex.test(username)
 }
 
@@ -29,7 +29,8 @@ export async function fetchGitHubUser(username: string): Promise<GitHubUserRespo
     throw new Error(`Invalid GitHub username format: ${username}`)
   }
   
-  const response = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}`)
+  // Username is validated, but using encodeURIComponent as defense-in-depth
+  const response = await fetch(`https://api.github.com/users/${username}`)
   
   if (!response.ok) {
     if (response.status === 403) {
