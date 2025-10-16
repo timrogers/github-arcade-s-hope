@@ -20,7 +20,8 @@ export async function fetchGitHubUser(username: string): Promise<GitHubUserData 
   }
 
   // Basic GitHub username validation (alphanumeric, hyphens, max 39 chars)
-  if (!/^[a-zA-Z0-9-]{1,39}$/.test(username.trim())) {
+  // Usernames must start and end with alphanumeric characters
+  if (!/^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(username.trim())) {
     console.error(`Invalid GitHub username format: ${username}`)
     return null
   }

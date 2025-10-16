@@ -19,7 +19,7 @@ Right now, this is just a starting point — the perfect place to begin building
 
 The application fetches real user avatars from the GitHub API. Without authentication, you're limited to 60 requests per hour. To increase this to 5,000 requests per hour:
 
-1. Generate a personal access token at https://github.com/settings/tokens (no scopes required for public data)
+1. Generate a classic personal access token at https://github.com/settings/tokens (no scopes required for public data)
 2. Create a `.env` file based on `.env.example`
 3. Add your token: `VITE_GITHUB_TOKEN=your_token_here`
 
