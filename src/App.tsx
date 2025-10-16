@@ -6,6 +6,7 @@ import { PlayerCard } from '@/components/PlayerCard'
 import { StatsComparison } from '@/components/StatsComparison'
 import { ContributionGraph } from '@/components/ContributionGraph'
 import { WinnerBanner } from '@/components/WinnerBanner'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { fetchGitHubUserData } from '@/lib/githubApi'
 import type { GitHubUser } from '@/lib/types'
 
@@ -78,6 +79,9 @@ function App() {
       
       <div className="relative">
         <header className="py-8 px-4 md:px-8">
+          <div className="absolute top-4 right-4 md:top-8 md:right-8">
+            <ThemeSwitcher />
+          </div>
           <motion.div
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
