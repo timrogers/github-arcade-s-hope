@@ -12,6 +12,29 @@ This template is your blank canvas. It comes with a minimal setup to help you ge
 
 Right now, this is just a starting point — the perfect place to begin building and testing your Spark applications.
 
+## 🛠️ Development
+
+### Linting and Formatting
+
+This project uses ESLint with Prettier integration for code quality and formatting checks.
+
+**Check your code:**
+```bash
+npm run lint
+```
+
+**Auto-fix formatting issues:**
+```bash
+npm run lint -- --fix
+```
+
+The project follows these formatting rules:
+- Single quotes for strings
+- No semicolons
+- 2-space indentation
+- Trailing commas in ES5 mode
+- Arrow functions without parentheses for single parameters
+
 🧹 Just Exploring?
 No problem! If you were just checking things out and don’t need to keep this code:
 
