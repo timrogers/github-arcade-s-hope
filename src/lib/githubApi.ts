@@ -23,7 +23,9 @@ export async function fetchGitHubUser(username: string): Promise<GitHubUserData 
       name: response.data.name || response.data.login
     }
   } catch (error) {
-    console.error(`Failed to fetch GitHub user ${username}:`, error)
+    // Log only the error message to avoid exposing sensitive information
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error(`Failed to fetch GitHub user ${username}:`, errorMessage)
     return null
   }
 }
