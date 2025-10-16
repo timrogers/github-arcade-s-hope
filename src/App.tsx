@@ -13,13 +13,19 @@ function App() {
   const [player1, setPlayer1] = useState<GitHubUser | null>(null)
   const [player2, setPlayer2] = useState<GitHubUser | null>(null)
   const [showBattle, setShowBattle] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleStartBattle = (username1: string, username2: string) => {
-    const user1 = generateDummyUserData(username1)
-    const user2 = generateDummyUserData(username2)
-    setPlayer1(user1)
-    setPlayer2(user2)
-    setShowBattle(true)
+  const handleStartBattle = async (username1: string, username2: string) => {
+    setIsLoading(true)
+    try {
+      const user1 = await generateDummyUserData(username1)
+      const user2 = await generateDummyUserData(username2)
+      setPlayer1(user1)
+      setPlayer2(user2)
+      setShowBattle(true)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleReset = () => {
@@ -96,7 +102,7 @@ function App() {
         <main className="px-4 md:px-8 pb-16">
           <AnimatePresence mode="wait">
             {!showBattle ? (
-              <SelectionScreen key="selection" onStartBattle={handleStartBattle} />
+              <SelectionScreen key="selection" onStartBattle={handleStartBattle} isLoading={isLoading} />
             ) : (
               <motion.div
                 key="battle"
@@ -205,7 +211,7 @@ function App() {
   )
 }
 
-function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: string) => void }) {
+function SelectionScreen({ onStartBattle, isLoading }: { onStartBattle: (u1: string, u2: string) => void, isLoading: boolean }) {
   const [username1, setUsername1] = useState('')
   const [username2, setUsername2] = useState('')
 
@@ -310,7 +316,7 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
           >
             <Button
               type="submit"
-              disabled={!username1.trim() || !username2.trim()}
+              disabled={!username1.trim() || !username2.trim() || isLoading}
               className="w-full py-6 text-lg font-bold bg-accent hover:bg-accent/90 text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_rgba(190,242,100,0.3)] hover:shadow-[0_0_50px_rgba(190,242,100,0.5)] transition-all"
             >
               <motion.span
@@ -323,7 +329,7 @@ function SelectionScreen({ onStartBattle }: { onStartBattle: (u1: string, u2: st
                   repeatType: "reverse"
                 }}
               >
-                START BATTLE
+                {isLoading ? 'LOADING...' : 'START BATTLE'}
               </motion.span>
             </Button>
           </motion.div>

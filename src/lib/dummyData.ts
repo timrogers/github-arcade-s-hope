@@ -1,15 +1,5 @@
 import type { GitHubUser, ContributionDay, GitHubStats } from './types'
-
-const avatarColors = [
-  'e91e63', '9c27b0', '673ab7', '3f51b5', '2196f3',
-  '00bcd4', '009688', '4caf50', 'ff9800', 'ff5722'
-]
-
-function getRandomAvatar(username: string): string {
-  const colorIndex = username.length % avatarColors.length
-  const color = avatarColors[colorIndex]
-  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}&backgroundColor=${color}`
-}
+import { fetchGitHubUser } from './githubApi'
 
 function generateContributions(): ContributionDay[] {
   const contributions: ContributionDay[] = []
@@ -83,14 +73,15 @@ function calculateStats(contributions: ContributionDay[]): GitHubStats {
   }
 }
 
-export function generateDummyUserData(username: string): GitHubUser {
+export async function generateDummyUserData(username: string): Promise<GitHubUser> {
   const contributions = generateContributions()
   const stats = calculateStats(contributions)
+  const userData = await fetchGitHubUser(username)
   
   return {
     username,
-    avatar: getRandomAvatar(username),
-    name: username.charAt(0).toUpperCase() + username.slice(1),
+    avatar: userData.avatar,
+    name: userData.name,
     contributions,
     stats
   }
