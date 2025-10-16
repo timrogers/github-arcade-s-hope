@@ -1,5 +1,8 @@
 import { Octokit } from 'octokit'
 
+// Using anonymous authentication for simplicity.
+// GitHub API rate limit: 60 requests/hour for unauthenticated requests.
+// For production, consider adding a personal access token to increase limit to 5,000/hour.
 const octokit = new Octokit()
 
 export interface GitHubUserData {
