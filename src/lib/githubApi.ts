@@ -29,7 +29,6 @@ export async function fetchGitHubUser(username: string): Promise<GitHubUserRespo
     throw new Error(`Invalid GitHub username format: ${username}`)
   }
   
-  // Username is validated, but using encodeURIComponent as defense-in-depth
   const response = await fetch(`https://api.github.com/users/${username}`)
   
   if (!response.ok) {
