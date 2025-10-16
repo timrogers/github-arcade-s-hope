@@ -20,7 +20,7 @@ export async function fetchGitHubUser(username: string): Promise<GitHubUserData>
       name: data.name || data.login,
     }
   } catch (error) {
-    console.error(`Failed to fetch GitHub user ${username}:`, error)
+    console.warn(`Failed to fetch GitHub user ${username}, using fallback avatar`)
     // Fallback to placeholder if API fails
     return {
       username,
