@@ -1,14 +1,8 @@
 import type { GitHubUser, ContributionDay, GitHubStats } from './types'
 
-const avatarColors = [
-  'e91e63', '9c27b0', '673ab7', '3f51b5', '2196f3',
-  '00bcd4', '009688', '4caf50', 'ff9800', 'ff5722'
-]
-
 function getRandomAvatar(username: string): string {
-  const colorIndex = username.length % avatarColors.length
-  const color = avatarColors[colorIndex]
-  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}&backgroundColor=${color}`
+  // Use GitHub's avatar URL format
+  return `https://github.com/${username}.png`
 }
 
 function generateContributions(): ContributionDay[] {
