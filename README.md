@@ -14,6 +14,22 @@ This template is your blank canvas. It comes with a minimal setup to help you ge
 
 Right now, this is just a starting point — the perfect place to begin building and testing your Spark applications.
 
+## 🎨 Code Formatting
+
+This project uses Prettier integrated with ESLint for consistent code formatting.
+
+### Available Commands
+
+- `npm run lint` - Check code for linting and formatting issues
+- `npm run lint:fix` - Automatically fix linting and formatting issues
+- `npm run format` - Format code using Prettier
+
+### Configuration
+
+- ESLint config: `eslint.config.js`
+- Prettier config: `.prettierrc`
+- Prettier ignore: `.prettierignore`
+
 🧹 Just Exploring?
 No problem! If you were just checking things out and don’t need to keep this code:
 
