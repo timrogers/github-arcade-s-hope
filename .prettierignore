@@ -1,0 +1,13 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+build
+.vite
+
+# Generated files
+*.tsbuildinfo
+
+# Config files that may have specific formatting
+package-lock.json
