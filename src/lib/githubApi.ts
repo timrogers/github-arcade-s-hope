@@ -1,3 +1,4 @@
+import axios from 'axios'
 import type { GitHubUser, ContributionDay, GitHubStats } from './types'
 
 interface GitHubContribData {
@@ -7,6 +8,11 @@ interface GitHubContribData {
       count: number
     }>
   }>
+}
+
+interface GitHubUserProfile {
+  avatar_url: string
+  name: string | null
 }
 
 function calculateStats(contributions: ContributionDay[]): GitHubStats {
@@ -52,13 +58,9 @@ function calculateStats(contributions: ContributionDay[]): GitHubStats {
 
 export async function fetchGitHubUserData(username: string): Promise<GitHubUser> {
   try {
-    const response = await fetch(`https://contributions-api.me-5bd.workers.dev/?username=${username}`)
+    const response = await axios.get<GitHubContribData>(`https://contributions-api.me-5bd.workers.dev/?username=${username}`)
     
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data for ${username}`)
-    }
-    
-    const data: GitHubContribData = await response.json()
+    const data = response.data
     
     // Flatten the contribution data
     const contributions: ContributionDay[] = data.weeks.flatMap(week => 
@@ -71,8 +73,8 @@ export async function fetchGitHubUserData(username: string): Promise<GitHubUser>
     const stats = calculateStats(contributions)
     
     // Fetch user profile for avatar and name
-    const profileResponse = await fetch(`https://api.github.com/users/${username}`)
-    const profileData = await profileResponse.json()
+    const profileResponse = await axios.get<GitHubUserProfile>(`https://api.github.com/users/${username}`)
+    const profileData = profileResponse.data
     
     return {
       username,
