@@ -10,6 +10,11 @@ interface GitHubContribData {
   }>
 }
 
+interface GitHubUserProfile {
+  avatar_url: string
+  name: string | null
+}
+
 function calculateStats(contributions: ContributionDay[]): GitHubStats {
   const totalContributions = contributions.reduce((sum, day) => sum + day.count, 0)
   
@@ -68,7 +73,7 @@ export async function fetchGitHubUserData(username: string): Promise<GitHubUser>
     const stats = calculateStats(contributions)
     
     // Fetch user profile for avatar and name
-    const profileResponse = await axios.get(`https://api.github.com/users/${username}`)
+    const profileResponse = await axios.get<GitHubUserProfile>(`https://api.github.com/users/${username}`)
     const profileData = profileResponse.data
     
     return {
