@@ -81,7 +81,6 @@ export function WinnerBanner({ winner, player1, player2 }: WinnerBannerProps) {
   }
 
   const winnerUser = winner === 'player1' ? player1 : player2
-  const winnerColor = winner === 'player1' ? 'primary' : 'secondary'
   const winnerBg =
     winner === 'player1'
       ? 'from-primary/10 via-primary/5 to-primary/10'
