@@ -1,11 +1,6 @@
 import { motion } from 'framer-motion'
 import { Card } from '@/components/ui/card'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import type { ContributionDay } from '@/lib/types'
 
 interface ContributionGraphProps {
@@ -28,7 +23,7 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
 
   const weeks: ContributionDay[][] = []
   let currentWeek: ContributionDay[] = []
-  
+
   contributions.forEach((day, index) => {
     currentWeek.push(day)
     if (currentWeek.length === 7) {
@@ -36,17 +31,17 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
       currentWeek = []
     }
   })
-  
+
   if (currentWeek.length > 0) {
     weeks.push(currentWeek)
   }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     })
   }
 
@@ -54,11 +49,13 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, type: "spring" }}
+      transition={{ delay: 0.5, type: 'spring' }}
     >
-      <Card className={`p-6 border-2 ${borderColor} hover:${borderColor.replace('50', '100')} transition-all hover:shadow-xl`}>
+      <Card
+        className={`p-6 border-2 ${borderColor} hover:${borderColor.replace('50', '100')} transition-all hover:shadow-xl`}
+      >
         <div className="mb-4">
-          <motion.h3 
+          <motion.h3
             className="font-bold text-lg tracking-wide"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -67,7 +64,7 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
             @{username}
           </motion.h3>
         </div>
-        
+
         <TooltipProvider delayDuration={0}>
           <div className="overflow-x-auto pb-2">
             <div className="inline-flex gap-1 min-w-full">
@@ -79,16 +76,16 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
                         <motion.div
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
-                          transition={{ 
+                          transition={{
                             delay: 0.6 + (weekIndex * 7 + dayIndex) * 0.002,
-                            type: "spring",
+                            type: 'spring',
                             stiffness: 500,
-                            damping: 30
+                            damping: 30,
                           }}
-                          whileHover={{ 
+                          whileHover={{
                             scale: 1.5,
                             rotate: 5,
-                            zIndex: 10
+                            zIndex: 10,
                           }}
                           className={`w-3 h-3 rounded-sm cursor-pointer transition-all ${getIntensityClass(day.count)}`}
                         />
@@ -107,7 +104,7 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
           </div>
         </TooltipProvider>
 
-        <motion.div 
+        <motion.div
           className="mt-4 flex items-center gap-2 text-xs text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -120,14 +117,18 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
                 key={level}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ delay: 1 + level * 0.05, type: "spring" }}
+                transition={{ delay: 1 + level * 0.05, type: 'spring' }}
                 whileHover={{ scale: 1.3 }}
                 className={`w-3 h-3 rounded-sm ${
-                  level === 0 ? 'bg-muted/20' : 
-                  level === 1 ? `${baseColor}/30` :
-                  level === 2 ? `${baseColor}/50` :
-                  level === 3 ? `${baseColor}/70` :
-                  `${baseColor}`
+                  level === 0
+                    ? 'bg-muted/20'
+                    : level === 1
+                      ? `${baseColor}/30`
+                      : level === 2
+                        ? `${baseColor}/50`
+                        : level === 3
+                          ? `${baseColor}/70`
+                          : `${baseColor}`
                 }`}
               />
             ))}
