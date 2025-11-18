@@ -179,11 +179,8 @@ describe('Responsive Design', () => {
       // Button should be large enough to tap easily
       cy.contains('button', 'START BATTLE')
         .should('be.visible')
-        .then(($btn) => {
-          const height = $btn.height() || 0
-          // Button should be at least 44px high (minimum touch target)
-          expect(height).to.be.greaterThan(40)
-        })
+        .invoke('outerHeight')
+        .should('be.greaterThan', 40)
     })
 
     it('should handle input focus on mobile', () => {
