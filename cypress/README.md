@@ -4,7 +4,7 @@ This directory contains end-to-end tests for the GitHub Arcade Battle Arena appl
 
 ## Test Coverage
 
-The test suite includes three main test files covering all critical user flows:
+The test suite includes four main test files covering all critical user flows:
 
 ### 1. User Selection Flow (`user-selection.cy.ts`)
 Tests the initial user selection screen and input validation:
@@ -31,6 +31,12 @@ Tests the ability to reset and start a new battle:
 - ✅ Input fields are cleared after reset
 - ✅ Starting a new battle after reset
 - ✅ Error messages are cleared on reset
+
+### 4. Complete User Journey (`complete-user-journey.cy.ts`)
+Tests the full end-to-end user experience:
+- ✅ Complete battle flow from start to reset
+- ✅ Responsive design across different viewports
+- ✅ State maintenance during animations
 
 ## Running the Tests
 
@@ -71,12 +77,13 @@ The interactive mode opens the Cypress Test Runner, allowing you to:
 
 ```
 cypress/
-├── e2e/                          # Test files
-│   ├── battle-comparison.cy.ts   # Battle screen tests
-│   ├── reset-functionality.cy.ts # Reset functionality tests
-│   └── user-selection.cy.ts      # User selection tests
-├── fixtures/                     # Mock data
-│   ├── user1-contributions.json  # Mock contribution data for user 1
+├── e2e/                             # Test files
+│   ├── battle-comparison.cy.ts      # Battle screen tests
+│   ├── complete-user-journey.cy.ts  # Full user journey tests
+│   ├── reset-functionality.cy.ts    # Reset functionality tests
+│   └── user-selection.cy.ts         # User selection tests
+├── fixtures/                        # Mock data
+│   ├── user1-contributions.json     # Mock contribution data for user 1
 │   ├── user1-profile.json        # Mock profile data for user 1
 │   ├── user2-contributions.json  # Mock contribution data for user 2
 │   └── user2-profile.json        # Mock profile data for user 2
