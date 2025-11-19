@@ -32,3 +32,8 @@ pids
 .devcontainer/
 
 .spark-workbench-id
+
+# Cypress
+cypress/videos
+cypress/screenshots
+cypress/downloads
