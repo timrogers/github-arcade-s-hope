@@ -12,6 +12,22 @@ This template is your blank canvas. It comes with a minimal setup to help you ge
 
 Right now, this is just a starting point — the perfect place to begin building and testing your Spark applications.
 
+## Testing
+
+This project includes comprehensive end-to-end tests using Cypress.
+
+**Run tests:**
+```bash
+# Start the dev server first
+npm run dev
+
+# In another terminal, run tests
+npm run test:e2e        # Run tests headlessly
+npm run test:e2e:open   # Open Cypress UI
+```
+
+See the [Cypress README](cypress/README.md) for detailed testing documentation.
+
 🧹 Just Exploring?
 No problem! If you were just checking things out and don’t need to keep this code:
 
