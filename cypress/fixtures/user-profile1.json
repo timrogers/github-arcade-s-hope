@@ -1,0 +1,10 @@
+{
+  "login": "testuser1",
+  "id": 1234567,
+  "avatar_url": "https://avatars.githubusercontent.com/u/1234567",
+  "name": "Test User One",
+  "bio": "A test user for integration testing",
+  "public_repos": 42,
+  "followers": 100,
+  "following": 50
+}
