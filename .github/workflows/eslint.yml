@@ -3,8 +3,26 @@ name: ESLint
 on:
   push:
     branches: ['**']
+    paths:
+      - '**.js'
+      - '**.jsx'
+      - '**.ts'
+      - '**.tsx'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.js'
+      - '.github/workflows/eslint.yml'
   pull_request:
     branches: ['**']
+    paths:
+      - '**.js'
+      - '**.jsx'
+      - '**.ts'
+      - '**.tsx'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'eslint.config.js'
+      - '.github/workflows/eslint.yml'
 
 jobs:
   lint:
