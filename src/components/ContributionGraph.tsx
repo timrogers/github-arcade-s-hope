@@ -29,7 +29,7 @@ export function ContributionGraph({ contributions, playerSide, username }: Contr
   const weeks: ContributionDay[][] = []
   let currentWeek: ContributionDay[] = []
   
-  contributions.forEach((day, index) => {
+  contributions.forEach((day) => {
     currentWeek.push(day)
     if (currentWeek.length === 7) {
       weeks.push(currentWeek)
